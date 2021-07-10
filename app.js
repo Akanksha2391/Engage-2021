@@ -69,33 +69,7 @@ let roomid = []
 app.get('/chat',(req,res) => {
     console.log('hiiiii'+ Username)
 
-  
-    
-    // participantRef = db.ref('/paricipant/'+Username+'/room');
-    // participantRef.once('value', (snapshot) => {
-    //     const data = snapshot.val();
-    //   //console.log(data)
-    //     for(let x in data){
-    //         let y = data[x]
-    //         for(let z in y){
-    //             if(z==='room')
-    //             {
-    //                 let a = y[z]
-    //                 room.push(a)
-    //             }
-    //             if(z==='roomid'){
-    //                 let b = y[z]
-    //                 console.log(b)
-    //                 roomid.push(b)
-    //             }
-    //         }
-    //     }
-    //     console.log(typeof room)
-    //     console.log(roomid)
-    //   });
-    //   let array = []
-    //   array.push('fhgjk')
-    //   console.log('...'+array)
+
     res.render('chat2.ejs',{'username': Username})
 })
 
@@ -124,6 +98,7 @@ app.post('/signup', async (req, res) => {
                 }
                 console.log(user)
                 UserRef.push(user);
+                // UserRef.child(req.body.username).set({})
                 
                 res.redirect('/login')
               } catch {
