@@ -6,7 +6,7 @@ function createUUID() {
   });
 }
 
-let user
+let  user = sessionStorage.getItem('username')
 
 
 var firebaseConfig = {
@@ -260,8 +260,8 @@ function sendMessage(e){
      console.log(x)
     current_roomid = roomids[x];
     sessionStorage.setItem('current_roomid',current_roomid);
-    sessionStorage.setItem('username',userId);
-    user = sessionStorage.getItem('username')
+    
+   
     msgRef = db.ref('/'+current_roomid); 
     msgRef.on('child_added', updateMsgs);
     document.getElementById('join').style.visibility = 'visible';
