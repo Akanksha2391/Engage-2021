@@ -123,14 +123,14 @@ a {
 .chat-messages .message {
 	padding: 10px;
 	margin-bottom: 15px;
-	background-color: rgb(222, 226, 230);
+	background-color: rgb(111, 111, 112);
 	border-radius: 5px;
 }
 
 .chat-messages .message .meta {
 	font-size: 15px;
 	font-weight: bold;
-	color: rgb(108, 117, 125);
+	color: rgb(33, 35, 36);
 	opacity: 0.7;
 	margin-bottom: 7px;
 }
@@ -260,7 +260,7 @@ a {
 	font-size: 50px;
 }
 .room-list{
-	background-color: rgb(108, 117, 125);
+	background-color: rgb(34, 33, 33);
 	font-size:25px ;
 	border: none;
 }
