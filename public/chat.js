@@ -274,7 +274,7 @@ function sendMessage(e){
    function clearstorage()
    {
     console.log('clearing session') 
-    localStorage.clear();
+    sessionStorage.clear();
    }
    document.getElementById('create-room-btn').addEventListener('click',()=>{
      location.reload();
