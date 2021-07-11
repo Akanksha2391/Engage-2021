@@ -6,7 +6,7 @@ function createUUID() {
   });
 }
 
-let  user = sessionStorage.getItem('username')
+let  user = userId
 
 
 var firebaseConfig = {
