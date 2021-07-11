@@ -8,18 +8,32 @@
 	--error-color: #d9534f;
 }
 
+body{
+    width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/images/bg4.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	margin: 20px;
+}
+
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 }
 
-body {
+/* body {
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
 	background: rgb(206, 212, 218);
 	margin: 20px;
-}
+} */
 
 ul {
 	list-style: none;
@@ -45,11 +59,12 @@ a {
 	background: #fff;
 	margin: 30px auto;
 	overflow: hidden;
+	opacity: 0.8;
 	height: 700px;
 }
 
 .chat-header {
-	background: rgb(73, 80, 87);
+	background: rgb(24, 22, 22);
 	color: #fff;
 	padding: 5px; 
 	padding-left: 15px;
@@ -57,6 +72,7 @@ a {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	
 }
 
 .chat-main {
@@ -65,11 +81,12 @@ a {
 }
 
 .chat-sidebar {
-	background: rgb(108, 117, 125);
+	background: rgb(34, 33, 33);
 	color: #fff;
 	padding: 20px 20px 60px;
 	overflow-y: scroll;
 	height: 555px;
+	border-bottom: 5px white;
 }
 
 .chat-sidebar h2 {
@@ -89,7 +106,7 @@ a {
 
 .chat-sidebar .btn {
 	
-	background: rgb(108, 117, 125);
+	background: rgb(34, 33, 33);
 	cursor: pointer;
 	padding: 5px 15px;
 	color: white;
@@ -124,11 +141,11 @@ a {
 
 .chat-form-container {
 	padding: 20px 30px;
-	background-color: rgb(73, 80, 87);
+	background-color: rgb(24, 22, 22);
 
 }
 .chat-form-container a {
-	background:rgb(73, 80, 87);
+	background:rgb(24, 22, 22);
 	cursor: pointer;
 	padding: 5px 15px;
 	color: white;
@@ -151,7 +168,7 @@ a {
 	margin-left:50px;
 }
 .send-btn{
-	background:rgb(73, 80, 87);
+	background:rgb(24, 22, 22);
 	cursor: pointer;
 	padding: 5px 15px;
 	color: white;
@@ -246,4 +263,8 @@ a {
 	background-color: rgb(108, 117, 125);
 	font-size:25px ;
 	border: none;
+}
+
+.logout-btn {
+	margin-right: 5px;
 }
