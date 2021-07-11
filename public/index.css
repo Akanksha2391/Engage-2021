@@ -113,3 +113,14 @@
     object-fit: cover;
     padding: 8px;
  }
+ .local-video{
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    width:15vw;
+}
+.remote-video{
+    width:100%;
+    height:auto;
+    max-height: 90vh;
+}

@@ -81,11 +81,16 @@ input{
 	width: 100%;
 }
 
-/* .join-main .btn {
-	margin-top: 20px;
-	margin-bottom: 20px;
-	width: 100%;
-} */
+ .join-main .btn {
+	margin-top: 40px;
+	margin-bottom: 30px;
+    margin:  auto;
+	width: 260px;
+    background: rgb(34, 33 ,33);
+    cursor: pointer;
+    border-radius: 30px;
+    color: #fff;
+} 
 
 button{
     display: block;
