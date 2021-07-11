@@ -6,6 +6,8 @@ function createUUID() {
   });
 }
 
+let user
+
 
 var firebaseConfig = {
   apiKey: "AIzaSyAErXkZ-Cb9QlTLEIx5H8NNPBdOuRiioZU",
@@ -27,7 +29,7 @@ var firebaseConfig = {
 
 
    // ************************************************************************/
-   const participantRef = db.ref("/paricipant/"+userId+"/room");
+   const participantRef = db.ref("/paricipant/"+user+"/room");
 
    //console.log(participantRef)
    
@@ -112,7 +114,7 @@ const msgInput = document.getElementById("msg-input");
 const msgBtn = document.getElementById("msg-btn");
 
 console.log('hii from chat.js')
-console.log(userId)
+console.log(user)
 
 
 
@@ -144,7 +146,7 @@ function sendMessage(e){
   
       if(!text.trim()) return alert('Please type a message'); //no msg submitted
       const msg = {
-          name: userId,
+          name: user,
           text: text
       };
   
@@ -259,6 +261,7 @@ function sendMessage(e){
     current_roomid = roomids[x];
     sessionStorage.setItem('current_roomid',current_roomid);
     sessionStorage.setItem('username',userId);
+    user = sessionStorage.getItem('username')
     msgRef = db.ref('/'+current_roomid); 
     msgRef.on('child_added', updateMsgs);
     document.getElementById('join').style.visibility = 'visible';
