@@ -43,7 +43,7 @@
                 </div>
                   <div class="form-row">
                       <button type="button" class="btn btn-secondary btn-sm ml-auto" data-dismiss="modal">Cancel</button>
-                      <button type="submit" class="btn btn-primary btn-sm ml-1">Join</button>        
+                      <button type="submit" class="btn btn-primary btn-sm ml-1" id = 'join-room-btn'>Join</button>        
                   </div>
               </form>
           </div>
@@ -69,7 +69,7 @@
                 </div>
                   <div class="form-row">
                       <button type="button" class="btn btn-secondary btn-sm ml-auto" data-dismiss="modal">Cancel</button>
-                      <button type="submit" class="btn btn-primary btn-sm ml-1">Create</button>        
+                      <button type="submit" class="btn btn-primary btn-sm ml-1" id = 'create-room-btn'>Create</button>        
                   </div>
               </form>
           </div>
@@ -82,7 +82,9 @@
   <div class="chat-container">
     <header class="chat-header">
       <h3><i class="fas fa-comments"></i></h3>
-      <a href="/login"  class="btn">Leave Room</a>
+      <form id = 'logout-form' action = '/login'>
+        <button id = "logout-btn" type = "submit" class = 'btn'><i class="fas fa-sign-out-alt"></i></button>
+      </form>
     </header>
     <main class="chat-main">
       <div class="chat-sidebar">
@@ -107,8 +109,8 @@
     </main>
     <div class="chat-form-container">
         <form id="messageForm">
-          <a href = "/join" id = 'join' class = "btn">start call</a>
-          <a href = "/room" id = 'room' class = "btn">join call</a>
+          <a style = "visibility:hidden" href = "/join" id = 'join' class = "btn">start call</a>
+          <a  style = "visibility:hidden" href = "/room" id = 'room' class = "btn">join call</a>
           <input
             id="msg-input"
             type="text"

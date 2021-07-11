@@ -87,7 +87,13 @@ var firebaseConfig = {
       }
       console.log(msg)
   
-      participantRef.push(msg);
+      participantRef.orderByChild("roomid").equalTo(id).once('value').then( async (snapshot)=>  {
+      
+        if(!snapshot.exists()){
+          participantRef.push(msg);
+        }
+      })
+
       createRoomInput.value = "";
 
    }
@@ -255,11 +261,27 @@ function sendMessage(e){
     sessionStorage.setItem('username',userId);
     msgRef = db.ref('/'+current_roomid); 
     msgRef.on('child_added', updateMsgs);
+    document.getElementById('join').style.visibility = 'visible';
+    document.getElementById('room').style.visibility = 'visible';
 
    }
 
 
    /************************************************************8 */
+
+   document.getElementById('logout-form').addEventListener('submit',clearstorage)
+
+   function clearstorage()
+   {
+    console.log('clearing session') 
+    localStorage.clear();
+   }
+   document.getElementById('create-room-btn').addEventListener('click',()=>{
+     location.reload();
+   })
+   $('#join-room-btn').click(function() {
+   $('#joinRoom').modal('hide');
+   })
 
    
 
