@@ -4,6 +4,7 @@ const server = require('http').Server(app)
 const io = require("socket.io")(server)
 const bcrypt = require('bcrypt')
 const firebase = require('firebase')
+const session = require('express-session')
 
 
 //const methodOverride = require('method-override')
@@ -46,6 +47,12 @@ app.use(express.static(__dirname + '/node_modules/jquery/dist/'));
 
 app.use(express.urlencoded({ extended: false }))
 
+app.use(session({
+    secret : 'secret-key',
+    resave : false,
+    saveUninitialized: false
+}))
+
 const port = process.env.PORT || 3000;
 
 app.get('/sample', (req,res) =>{
@@ -55,11 +62,11 @@ app.get('/join',(req,res) => {
  
 
     //console.log(User.roomid)
-    res.render('index.ejs')
+    res.render('index.ejs',{'username': Username})
 })
 
 app.get('/room',(req,res) => {
-    res.render('room.ejs')
+    res.render('room.ejs',{'username': Username})
     //res.redirect('/chat')
 })
 
@@ -68,9 +75,10 @@ let roomid = []
 
 app.get('/chat',(req,res) => {
     console.log('hiiiii'+ Username)
+    req.session.user = Username
 
 
-    res.render('chat2.ejs',{'username': Username})
+    res.render('chat2.ejs',{'username': req.session.user})
 })
 
 app.get('/login',(req,res) => {
