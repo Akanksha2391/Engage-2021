@@ -34,7 +34,7 @@ var firebaseConfig = {
       const UserRef = db.ref("/users"); 
 
 
-let Username = "";
+//let Username = "";
 
 
 
@@ -62,11 +62,11 @@ app.get('/join',(req,res) => {
  
 
     //console.log(User.roomid)
-    res.render('index.ejs',{'username': Username})
+    res.render('index.ejs',{'username': req.session.Username})
 })
 
 app.get('/room',(req,res) => {
-    res.render('room.ejs',{'username': Username})
+    res.render('room.ejs',{'username': req.session.Username})
     //res.redirect('/chat')
 })
 
@@ -74,10 +74,10 @@ let room =[]
 let roomid = []
 
 app.get('/chat',(req,res) => {
-    console.log('hiiiii'+ Username)
+    //console.log('hiiiii'+ Username)
 
 
-    res.render('chat2.ejs',{'username': Username})
+    res.render('chat2.ejs',{'username': req.session.Username})
 })
 
 app.get('/login',(req,res) => {
@@ -136,7 +136,7 @@ app.post('/signup', async (req, res) => {
                         console.log(err);
                     }
                     if (response){
-                        Username = data.val().name;
+                        req.session.Username = data.val().name;
                         res.redirect('/chat')
                     } else {
                         // response is OutgoingMessage object that server response http request
