@@ -89,7 +89,7 @@ input{
 
 button{
     display: block;
-    margin: 0 auto;
+    margin:  auto;
     width: 260px;
     height: 36px;
     border-radius: 30px;
@@ -105,9 +105,10 @@ button{
     font-weight: 600;
     font-family: 'Nunito', sans-serif;
     color:white;
-    background: -webkit-linear-gradient(left, #a7a7aa, #030203);
+    background: rgb(34, 33, 33);
   }
   
   .submit:hover{
-    background: -webkit-linear-gradient(left, #0a060c, #a7a7aa);
+    background: #a7a7aa;
+    color:rgb(34, 33, 33);
   }
