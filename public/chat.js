@@ -29,19 +29,17 @@ var firebaseConfig = {
 
 
    // ************************************************************************/
+  /*take room name and room id as input and create/join room */
+
+
    const participantRef = db.ref("/paricipant/"+user+"/room");
 
-   //console.log(participantRef)
-   
-   
    const createRoomFrm = document.getElementById("create-room");
    const createRoomInput = document.getElementById("create-room-id")
    const joinRoomFrm = document.getElementById("join-room");
    const joinRoomId = document.getElementById("join-room-id")
    const joinRoomName = document.getElementById("join-room-name")
 
-   console.log(createRoomFrm)
-   console.log("hiii create a room u idiot")
 
    
    createRoomFrm.addEventListener('submit', createRoom);
@@ -82,7 +80,7 @@ var firebaseConfig = {
       if(!roomname.trim()) return alert('Please enter room name '); 
       if(!id.trim()) return alert('Please enter room id ');//no msg submitted
 
-      //const roomid = createUUID();
+
       const msg = {
         room: roomname,
         roomid : id
@@ -107,14 +105,12 @@ var firebaseConfig = {
   /***********************************************************************************/
 
 
-//let user_name = 'ak';
+
 const msgScreen = document.getElementById("chat-messages");
 const msgForm = document.getElementById("messageForm");
 const msgInput = document.getElementById("msg-input");
 const msgBtn = document.getElementById("msg-btn");
 
-console.log('hii from chat.js')
-console.log(user)
 
 
 
@@ -122,12 +118,6 @@ console.log(user)
 
 //to store data in the msgs folder by creating a reference in database
 
-
-let name="akku";
-// function init() {
-//   name = prompt("Please enter your name");
-// }
-// document.addEventListener('DOMContentLoaded', init);
 
 
 msgForm.addEventListener('submit',sendMessage);
@@ -162,7 +152,7 @@ function sendMessage(e){
     const {name, text} = data.val(); //get name and text
     console.log(name)
   
-    //load messages, display on left if not the user's name. Display on right if it is the user.
+    //load messages
     const msg = `<div class="message">
   <p class="meta">${name}</p>
   <p class="text">
@@ -171,12 +161,6 @@ function sendMessage(e){
 </div>`
   
     
-    
-    
-    // const msg = `<li class="${dataName == name ? "msg my": "msg"}"><span class = "msg-span">
-    //   <i class = "name">${name}: </i>${text}
-    //   </span>
-    // </li>`
   
     msgScreen.innerHTML += msg; //add the <li> message to the chat window
   
@@ -188,32 +172,8 @@ function sendMessage(e){
 
 
   /******************************************************************************* */
-
-
-  // const loginbtn = document.getElementById("login-btn");
-  //  const loginInput = document.getElementById("username");
-  //  const loginfrm = document.getElementById("login-form");
-   
-   
-  //  let user = "";
-   
-   
-  //  loginfrm.addEventListener('submit', getUser);
-   
-  //  function getUser(e) {
-  //    console.log('got the mssg')
-  //    console.log(e)
-  //    //e.preventDefault();
-  //    const text = loginInput.value;
-  //    user = text;
-  //    console.log(text)
-   
-  //      if(!text.trim()) return alert('Please enter username'); //no msg submitted
-  //      loginInput.value = "";
-       
-  //  }
-
-   /***************************************************************************** */
+  /* load the rooms on page load in which the user already exists */
+/***************************************************************************** */
 
    let body = document.getElementById("body")
 
@@ -224,7 +184,6 @@ function sendMessage(e){
    function addrooms(){
      console.log('tum gadhi ho')
      let count = 0;
-    //participantRef = db.ref('/paricipant/'+userId+'/room');
     participantRef.once('value', (snapshot) => {
         const data = snapshot.val();
       console.log(data)
@@ -242,9 +201,7 @@ function sendMessage(e){
                   count +=1;
                     
                 }
-                // if(z==='roomid'){
-                //     roomid.push(y[z])
-                // }
+                
             
         }
         //console.log(room)

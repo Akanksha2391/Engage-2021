@@ -1,4 +1,7 @@
-const loginbtn = document.getElementById("login-btn");
+  /* Get the input from login form and alert if msg is empty */
+  
+  
+  const loginbtn = document.getElementById("login-btn");
    const loginInput = document.getElementById("username");
    const loginfrm = document.getElementById("login-form");
    

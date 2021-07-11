@@ -17,8 +17,6 @@ var firebaseConfig = {
 
 
 const roomId = sessionStorage.getItem('current_roomid');
-//const userId = sessionStorage.getItem('username');
-console.log('from main',roomId,userId); // 'dark'
 //stun servers
 let configuration = {
 
@@ -28,28 +26,21 @@ let configuration = {
       ]
 }
 
-//global var
+//*****************global var**********************//
 
 let localStream;
 let peer1 = '';
 let peer2 = '';
-//let roomId = 10;
-//let userId = 12;
-
-let creator = false;
-
-
-
-//on starting a call
-
-//peer1 = new RTCPeerConnection(configuration)
+let creator = false;  //intially creator is set to false
 
 
 
 
+// in the above one, again if creator is not true , peer1 wont be present.
+//on getting ice candidates from ceator send it to peer2 and on getting ice candidates from peer2 send it to peer1
 
 
-// in the above one, again if its not the creator, peer1 wont be present.
+
 function OnICECandidate(event){
     console.log('ice candidate generated')
     if (event.candidate) {
@@ -67,6 +58,7 @@ function OnICECandidate(event){
     }
 }
 
+//on getting media stream from peer add it to remote stream
 
 function OnTrackFunction(event){
     console.log(event.streams[0]);
@@ -76,16 +68,20 @@ function OnTrackFunction(event){
 
 
 
+//on starting a call
+
 
 async function startcall(){
     
-    creator = true;
+    creator = true; //set creator true
+
+    //get the local medai stream and add it to local-stream
     const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: true});
     console.log(stream);
     document.getElementById('local-stream').srcObject = stream
     localStream = stream;
 
-    socket.emit('join-room', {'room':roomId,'user':userId});
+    socket.emit('join-room', {'room':roomId,'user':userId});  // creator joined room
     console.log(configuration)
     peer1 = new RTCPeerConnection(configuration);
     peer1.ontrack = OnTrackFunction; 
@@ -111,8 +107,6 @@ async function startcall(){
 //on getting answer from remote user set remote description
 
 socket.on('answer',answer =>{
-    //console.log(answer)
-    //console.log(localStream)
     peer1.setRemoteDescription(JSON.parse(answer))
 })
 
@@ -156,7 +150,6 @@ socket.on('peer-candidate',candidate => {
 
 //on joining the call
 
-// peer2 = new RTCPeerConnection(configuration)
 
 async function joincall(){
     
@@ -186,18 +179,6 @@ async function joincall(){
 
 
 
-let faltu_var = "ak";
-
-
-//on getting ice candidate of peer2
-// peer2.onicecandidate = function(event) {
-//     if (event.candidate) {
-//         console.log(event.candidate)
-//         socket.emit('new-candidate',event.candidate)
-
-//     } 
-//   }
-
 
 
 //add ice candidate of host
@@ -220,7 +201,6 @@ socket.on('add-candidate',candidate =>{
 //answer the call with local description
 socket.on('add-user',(data) =>{
     console.log('add-user')
-    console.log(faltu_var);
 
     if(!creator){
         peer2.setRemoteDescription(JSON.parse(data.offer)).then(function() {
@@ -229,7 +209,6 @@ socket.on('add-user',(data) =>{
                 
               })
               .then(function() {
-                  //console.log(answer)
                   console.log(peer2.localDescription)
                   console.log(peer2)
                   socket.emit('call-answer',{'ans':JSON.stringify(peer2.localDescription),'room': roomId})
@@ -251,7 +230,11 @@ socket.on('add-user',(data) =>{
 
 
 //*************************************************************************************/
+/***************************************************************************************/
+/*************************************************************************************/
 
+
+//is video is playing then disable or if disabled then play 
 
 const playStop = () => {
     console.log('object')
@@ -265,6 +248,8 @@ const playStop = () => {
     }
   }
 
+  //change the play video icon
+
   const setStopVideo = () => {
     const html = `
       <i class="fas fa-video"></i>
@@ -272,6 +257,8 @@ const playStop = () => {
     `
     document.querySelector('.main__video_button').innerHTML = html;
   }
+
+  //change the stop video icon
   
   const setPlayVideo = () => {
     const html = `
@@ -282,8 +269,13 @@ const playStop = () => {
   }
 
 
+  
+  
   /**********************************************************************/
 
+  //if user is muted then enable audio and vice-versa
+  
+  
   const muteUnmute = () => {
     const enabled = localStream.getAudioTracks()[0].enabled;
     if (enabled) {
@@ -295,6 +287,8 @@ const playStop = () => {
     }
   }
 
+  //change to unmute icon to mute
+
   const setMuteButton = () => {
     const html = `
       <i class="fas fa-microphone"></i>
@@ -302,6 +296,8 @@ const playStop = () => {
     `
     document.querySelector('.main__mute_button').innerHTML = html;
   }
+
+  //change mute icon to unmute
   
   const setUnmuteButton = () => {
     const html = `
@@ -312,9 +308,13 @@ const playStop = () => {
   }
 
 
+
+
   /********************************************************************************/
 
-
+  //when leave meeting is clicked then close the peer connection
+  
+  
   function leave_meeting(){
       console.log('leave meet')
       if(creator)
@@ -334,15 +334,13 @@ const playStop = () => {
             peer2.close();
         else
             peer1.close();
-    //   let video = document.getElementById('remote-stream')
-    //   video.removeAttribute('src');
   })
 
 
 
   /**************************************************************/
 
-
+//Chat during the video call
 
   msgRef = db.ref('/'+roomId);
 // input value
@@ -350,7 +348,7 @@ let text = $("input");
 // when press enter send message
 $('html').keydown(function (e) {
   if (e.which == 13 && text.val().length !== 0) {
-    socket.emit('message', {'message':text.val(),'room':roomId});
+    socket.emit('message', {'message':text.val(),'room':roomId,'user':userId});
     const msg = {
       name: userId,
       text: text.val()
@@ -360,8 +358,10 @@ $('html').keydown(function (e) {
     
   }
 });
-socket.on("createMessage", message => {
-  $("ul").append(`<li class="message"><b>${userId}</b><br/>${message}</li>`);
+
+
+socket.on("createMessage", (data) => {
+  $("ul").append(`<li class="message"><b>${data.user}</b><br/>${data.message}</li>`);
   scrollToBottom()
   
 })

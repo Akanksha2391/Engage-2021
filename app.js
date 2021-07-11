@@ -7,7 +7,7 @@ const firebase = require('firebase')
 const session = require('express-session')
 
 
-//const methodOverride = require('method-override')
+
 
 let User
 
@@ -34,7 +34,7 @@ var firebaseConfig = {
       const UserRef = db.ref("/users"); 
 
 
-//let Username = "";
+
 
 
 
@@ -48,7 +48,7 @@ app.use(express.static(__dirname + '/node_modules/jquery/dist/'));
 app.use(express.urlencoded({ extended: false }))
 
 app.use(session({
-    secret : 'secret-key',
+    secret : 'nooneshouldknowthis',
     resave : false,
     saveUninitialized: false
 }))
@@ -61,7 +61,6 @@ app.get('/sample', (req,res) =>{
 app.get('/join',(req,res) => {
  
 
-    //console.log(User.roomid)
     res.render('index.ejs',{'username': req.session.Username})
 })
 
@@ -70,11 +69,9 @@ app.get('/room',(req,res) => {
     //res.redirect('/chat')
 })
 
-let room =[]
-let roomid = []
+
 
 app.get('/chat',(req,res) => {
-    //console.log('hiiiii'+ Username)
 
 
     res.render('chat2.ejs',{'username': req.session.Username})
@@ -90,6 +87,8 @@ app.get('/signup',(req,res) => {
 })
 
 app.post('/signup', async (req, res) => {
+
+    /**get the username and password and create a new user */
     
     UserRef.orderByChild("name").equalTo(req.body.username).once('value').then( async (snapshot)=>  {
         if(snapshot.exists()){
@@ -120,6 +119,8 @@ app.post('/signup', async (req, res) => {
 
 
  app.post('/chat', async (req,res) =>{
+
+    //get the username and password , let the user login if password matches
 
 
     console.log(req.body.username,req.body.password)
@@ -163,15 +164,19 @@ app.post('/signup', async (req, res) => {
     
 })
 
+
+
 // ***********************************************************************************//
 
-const rooms = {};
-//const userId = 12
+
+
+
 
 io.on('connection', socket =>{
 
     
     socket.on("join-room",(data) => {
+        //when someone joins the room emit new-user
         console.log('roomid;',data.room)
         socket.join(data.room);
         console.log(data.room,data.user)
@@ -193,23 +198,26 @@ io.on('connection', socket =>{
         
     })
 
+    //on getting the offer send it to ither peer
     socket.on('offer',(data) =>{
         console.log('offer emitted')
-        //console.log(data.off)
-        //socket.emit('random')
+      
         socket.to(data.room).emit('add-user',{'offer':data.off});
     })
 
+//When peer2 answers call with its description emit answer recieved
     socket.on('call-answer', (data) =>{
-        //console.log(data.ans)
+        
         socket.to(data.room).emit('answer',data.ans)
     })
 
+//on gettin ice candidates of peer1 send it to peer2
     socket.on('store-candidate',(data) =>{
         //console.log(candidate)
         socket.to(data.room).emit('add-candidate',data.candidate)
     })
 
+//on gettin ice candidates of peer2 send it to peer1
     socket.on('new-candidate',(data) =>{
         socket.to(data.room).emit('peer-candidate',data.candidate)
     })
@@ -219,9 +227,11 @@ io.on('connection', socket =>{
 
     })
 
+
+//exchange messages between users
     socket.on('message', (data) => {
         //send message to the same room
-        io.to(data.room).emit('createMessage', data.message)
+        io.to(data.room).emit('createMessage', {'message': data.message,'user': data.user})
     }); 
 })
 
