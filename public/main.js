@@ -17,7 +17,7 @@ var firebaseConfig = {
 
 
 const roomId = sessionStorage.getItem('current_roomid');
-const userId = sessionStorage.getItem('username');
+//const userId = sessionStorage.getItem('username');
 console.log('from main',roomId,userId); // 'dark'
 //stun servers
 let configuration = {

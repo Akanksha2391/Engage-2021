@@ -75,10 +75,9 @@ let roomid = []
 
 app.get('/chat',(req,res) => {
     console.log('hiiiii'+ Username)
-    req.session.user = Username
 
 
-    res.render('chat2.ejs',{'username': req.session.user})
+    res.render('chat2.ejs',{'username': Username})
 })
 
 app.get('/login',(req,res) => {
