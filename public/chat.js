@@ -251,8 +251,8 @@ function sendMessage(e){
     }
      console.log(x)
     current_roomid = roomids[x];
-    localStorage.setItem('current_roomid',current_roomid);
-    localStorage.setItem('username',userId);
+    sessionStorage.setItem('current_roomid',current_roomid);
+    sessionStorage.setItem('username',userId);
     msgRef = db.ref('/'+current_roomid); 
     msgRef.on('child_added', updateMsgs);
 
